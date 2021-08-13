@@ -1,8 +1,5 @@
-// Identify Admirals
+// Identify Admiral
 while (!player1){
-    var player1 = prompt("Admiral One enter your name. You will be red") ;
+    var player1 = prompt("Admiral please enter your name") ;
 }
-while (!player2){
-    var player2 = prompt("Admiral Two enter your name. You will be blue") ;
 
-}
