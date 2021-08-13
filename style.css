@@ -1,0 +1,33 @@
+*{
+    margin: 0 ;
+    padding: 0 ;
+    box-sizing: border-box ;
+    text-align: center ;
+
+}
+
+.gameBoard{
+    position: absolute ;
+    left: 50% ;
+    transform: translate(-50%) ;
+    width: 800px ;
+    height: 800px ;
+    top: 5rem ;
+    background: grey ;
+    border: 3px solid black ;
+    padding: .5rem ;
+    box-shadow: 8px 8px black;
+}
+h1{
+    position: absolute ;
+    left: 50% ;
+    transform: translate(-50%);
+}
+.gameBoard table tr td{
+    width: 95px ;
+    height: 95px ;
+    border: 2px solid black;
+    border-radius: 10% ;
+    background-color: white ;
+    cursor: pointer;
+}
