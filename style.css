@@ -10,8 +10,8 @@
     position: absolute ;
     left: 50% ;
     transform: translate(-50%) ;
-    width: 800px ;
-    height: 800px ;
+    width: 600px ;
+    height: 600px ;
     top: 5rem ;
     background: grey ;
     border: 3px solid black ;
@@ -24,8 +24,8 @@ h1{
     transform: translate(-50%);
 }
 .gameBoard table tr td{
-    width: 95px ;
-    height: 95px ;
+    width: 70px ;
+    height: 70px ;
     border: 2px solid black;
     border-radius: 10% ;
     background-color: white ;
