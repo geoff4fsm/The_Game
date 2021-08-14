@@ -9,18 +9,48 @@
 <body>
     <h1>Battleship</h1> 
     
-    
-
     <div class = "gameBoard">
-        <div class = "userBoard"></div>
-        <div class = "computerBoard"></div>
+         <div class = "placement-board">Placement Board
+        <div class = "ships">
+            <div class = "ship destroyer" draggable = "true">destroyer
+                <div id = "destroyer-0"></div>
+                <div id = "destroyer-1"></div>
+            </div>
+            <div class = "ship cruiser" draggable = "true">cruiser
+                <div id = "cruiser-0"></div>
+                <div id = "cruiser-1"></div>
+                <div id = "cruiser-2"></div>
+            </div>
+            <div class = "ship battleship" draggable = "true">battleship
+                <div id = "battleship-0"></div>
+                <div id = "battleship-1"></div>
+                <div id = "battleship-2"></div>
+                <div id = "battleship-3"></div>
+            </div>
+            <div class = "ship carrier" draggable = "true">carrier
+                <div id = "carrier-0"></div>
+                <div id = "carrier-1"></div>
+                <div id = "carrier-2"></div>
+                <div id = "carrier-3"></div>
+                <div id = "carrier-4"></div>
+            </div>
+        </div>
     </div>
 
-    <div class = "placementBoard">
+        <div class = "board user-board">Player Board</div>
+        <div class = "board computer-board">Computer Board</div>
+
+        
+    
+        
+    <div class = "gamePlay">
         <button onclick="start">Start</button>
-        <button onclick="start">Start</button>
+        <button onclick="rotate">Rotate</button>
         <h3 id = "player-turn">Player turn</h3>
-        <h3 id = "info">Information</h3>
+        <h3 id = "info"></h3>
+
     </div>
+    
+    
     <script src = "app.js"></script>
 </body>

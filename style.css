@@ -1,51 +1,85 @@
+h1 {
+    position: absolute ;
+    left: 40% ;
+    
+}
+
 .gameBoard {
     display: flex ;
+    flex-wrap: wrap ;
 }
 
-.userBoard{
-    width: 400px ;
-    height: 400px ;
+.user-board{
+    width: 320px ;
+    height: 320px ;
     display: flex ;
     flex-wrap: wrap ;
-    top: 5rem ;
-    background: grey ;
+    
+    background: rgb(252, 172, 172) ;
     border: 3px solid black ;
     padding: .5rem ;
     box-shadow: 8px 8px black;
     margin: 20px ;
+    margin-top: 5% ;
 
 }
-.computerBoard{
-    width: 400px ;
-    height: 400px ;
+.computer-board{
+    width: 320px ;
+    height: 320px ;
     display: flex ;
     flex-wrap: wrap ;
-    top: 5rem ;
-    background: grey ;
+    background: rgb(180, 164, 255) ;
     border: 3px solid black ;
     padding: .5rem ;
     box-shadow: 8px 8px black;
     margin: 20px ;
+    margin-top: 5% ;
 }
-.placementBoard{
-    width: 400px ;
-    height: 400px ;
+.placement-board{
+    width: 320px ;
+    height: 320px ;
     display: flex ;
     flex-wrap: wrap ;
-    top: 5rem ;
-    background: grey ;
+    
+    background: lightyellow ;
     border: 3px solid black ;
     padding: .5rem ;
     box-shadow: 8px 8px black;
+    margin: 20px ;
+    margin-top: 5% ;
 }
 .board div {
-    width: 50px ;
-    height: 50px ;
+    width: 40px ;
+    height: 40px ;
     display: flex ;
 
 }
-h1{
-    position: absolute ;
-    left: 50% ;
-    transform: translate(-50%);
+
+.gamePlay {
+    margin-top: 10px;
+    
+}
+.destroyer {
+    width: 80px ;
+    height: 40px ;
+    background-color: yellow;
+    margin: 10px ;
+}
+.cruiser {
+    width: 120px ;
+    height: 40px ;
+    background-color: yellow;
+    margin: 10px ;
+}
+.battleship {
+    width: 160px ;
+    height: 40px ;
+    background-color: yellow;
+    margin: 10px ;
+}
+.carrier {
+    width: 200px ;
+    height: 40px ;
+    background-color: yellow;
+    margin: 10px ;
 }
