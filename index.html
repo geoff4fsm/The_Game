@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,24 +11,25 @@
     <h1>Battleship</h1> 
     
     <div class = "gameBoard">
-         <div class = "placement-board">Placement Board
+        
+        <div class = "board-placement">
         <div class = "ships">
-            <div class = "ship destroyer" draggable = "true">destroyer
+            <div class = "ship destroyer-container" draggable = "true">destroyer
                 <div id = "destroyer-0"></div>
                 <div id = "destroyer-1"></div>
             </div>
-            <div class = "ship cruiser" draggable = "true">cruiser
+            <div class = "ship cruiser-container" draggable = "true">cruiser
                 <div id = "cruiser-0"></div>
                 <div id = "cruiser-1"></div>
                 <div id = "cruiser-2"></div>
             </div>
-            <div class = "ship battleship" draggable = "true">battleship
+            <div class = "ship battleship-container" draggable = "true">battleship
                 <div id = "battleship-0"></div>
                 <div id = "battleship-1"></div>
                 <div id = "battleship-2"></div>
                 <div id = "battleship-3"></div>
             </div>
-            <div class = "ship carrier" draggable = "true">carrier
+            <div class = "ship carrier-container" draggable = "true">carrier
                 <div id = "carrier-0"></div>
                 <div id = "carrier-1"></div>
                 <div id = "carrier-2"></div>
@@ -37,12 +39,9 @@
         </div>
     </div>
 
-        <div class = "board user-board">Player Board</div>
-        <div class = "board computer-board">Computer Board</div>
-
-        
-    
-        
+    <div class = "board board-user"></div>
+    <div class = "board board-computer"></div>
+               
     <div class = "gamePlay">
         <button onclick="start">Start</button>
         <button onclick="rotate">Rotate</button>
