@@ -112,17 +112,21 @@ rotateButton.addEventListener("click", rotate)
 let selectedShipNameWithIndex
 let draggedShip
 let draggedShipLength
-
+console.log(selectedShipNameWithIndex)
+console.log(draggedShip)
+console.log(draggedShipLength)
 
 
 ships.forEach(ship => ship.addEventListener("mousedown", (e) => {
     selectedShipNameWithIndex = e.target.id
+    console.log(ships)
 }))
 
 let dragStart = (e) => {
+    console.log(this)
     draggedShip = this
-    draggedShipLength = this.childNodes.length
-    console.log(draggedShip)
+    draggedShipLength = this.length
+    console.log(draggedShipLength)
 
 }
 let dragOver = (e) => {
