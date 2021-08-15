@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", () => {
 //  Identify Admiral
 //  while (!player){
 //      const player = prompt("Admiral please enter your name") ;
@@ -74,9 +75,7 @@ let generateShips = (ship) => {
     if (randomDirection === 0) direction = 1    //  horizontal
     if (randomDirection === 1) direction = 8    //  vertical
     let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
-console.log(current , randomStart)
     const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) // checks if square is already occupied by another ship
-    console.log(isTaken)
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
     const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)
 
@@ -95,19 +94,69 @@ let rotate = () => {
         battleship.classList.toggle("battleship-container-vertical")
         carrier.classList.toggle("carrier-container-vertical")
         horizontal = false
+        return
+    }
+    if ( !horizontal ) {
+        destroyer.classList.toggle("destroyer-container")
+        cruiser.classList.toggle("cruiser-container")
+        battleship.classList.toggle("battleship-container")
+        carrier.classList.toggle("carrier-container")
+        horizontal = true
+        return
     }
 }
 rotateButton.addEventListener("click", rotate)
 
+// drag and drop player ship
+
+let selectedShipNameWithIndex
+let draggedShip
+let draggedShipLength
 
 
 
+ships.forEach(ship => ship.addEventListener("mousedown", (e) => {
+    selectedShipNameWithIndex = e.target.id
+}))
 
+let dragStart = (e) => {
+    draggedShip = this
+    draggedShipLength = this.childNodes.length
+    console.log(draggedShip)
 
+}
+let dragOver = (e) => {
+    e.preventDefault()  
+}
+let dragEnter = (e) => {
+    e.preventDefault()
+}
+let dragLeave = (e) => {
     
+}
+let dragDrop = (e) => {
+    let shipNameWithLastId= draggedShip.lastChild.id
+    let shipClass = shipNameWithLastId.slice(0,-2)
+    console.log(shipClass)
+    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))
+    let shipLastId = lastShipIndex + parseInt(this.dataset.id)
+    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
+    console.log(selectedShipIndex)
+}    
+let dragEnd = (e) => {
+    
+}
+console.log(ships)
+ships.forEach(ship => ship.addEventListener("dragstart", dragStart))
+userSquares.forEach(square => square.addEventListener("dragstart", dragStart))
+userSquares.forEach(square => square.addEventListener("dragover", dragOver))
+userSquares.forEach(square => square.addEventListener("dragenter", dragEnter))
+userSquares.forEach(square => square.addEventListener("dragleave", dragLeave))
+userSquares.forEach(square => square.addEventListener("drop", dragDrop))
+userSquares.forEach(square => square.addEventListener("dragend", dragEnd))
 
 
 
 
 
-
+})
