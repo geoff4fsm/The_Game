@@ -19,6 +19,7 @@ const infoDisplay = document.querySelector("#info")
 const width = 8 
 const userSquares = []
 const computerSquares = []
+let horizontal = true
 
 // Create game boards with assigned numbers for possible positions
 
@@ -38,9 +39,9 @@ createBoard( computerBoard, computerSquares)
 const shipArray = [ // array of ships to be placed randomly by computer
     {
     name: "destroyer",
-        directions: [       // possible directions of ship
+        directions: [       // possible directions of ship array
             [0, 1],        // horizontal
-            [0, width]     // verticle
+            [0, width]     // vertical
         ]
     },
     {
@@ -71,22 +72,35 @@ let generateShips = (ship) => {
     let randomDirection = Math.floor(Math.random() * ship.directions.length)
     let current = ship.directions[randomDirection]
     if (randomDirection === 0) direction = 1    //  horizontal
-    if (randomDirection === 1) direction = 8    //  verticle
+    if (randomDirection === 1) direction = 8    //  vertical
     let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
-console.log(current)
-    const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) 
+console.log(current , randomStart)
+    const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) // checks if square is already occupied by another ship
     console.log(isTaken)
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
     const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)
 
-    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken  
+    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to a ship if square already occupied 
     else generateShips(ship)
 }
+for ( let j = 0 ; j < shipArray.length ; j++)
+generateShips(shipArray[j]) 
 
-generateShips(shipArray[0]) 
-generateShips(shipArray[1])
-generateShips(shipArray[2])
-generateShips(shipArray[3])
+// rotate the ships
+
+let rotate = () => {
+    if ( horizontal ) {
+        destroyer.classList.toggle("destroyer-container-vertical")
+        cruiser.classList.toggle("cruiser-container-vertical")
+        battleship.classList.toggle("battleship-container-vertical")
+        carrier.classList.toggle("carrier-container-vertical")
+        horizontal = false
+    }
+}
+rotateButton.addEventListener("click", rotate)
+
+
+
 
 
 
