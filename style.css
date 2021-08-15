@@ -54,6 +54,7 @@ h1 {
 
 .gamePlay {
     margin-top: 10px;
+    
 }
 
 .ship div {
@@ -89,6 +90,21 @@ h1 {
     margin: 10px ;
     display: flex ;
 }
+.destroyer {
+    background-color: yellow ;
+}
+.cruiser {
+    background-color: orange ;
+}
+.battleship {
+    background-color: blue ;
+}
+.carrier {
+    background-color: green ;
+}
+
+
+
 
 
 

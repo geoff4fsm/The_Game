@@ -60,12 +60,11 @@ const shipArray = [ // array of ships to be placed randomly by computer
     {
     name: "carrier",
         directions: [
-            [0, 1, 2,,3 ,4],
+            [0, 1, 2, 3 ,4],
             [0, width, width*2, width*3, width*4]
         ]
     }
 ]
-
 // place computer ships in random location
 
 let generateShips = (ship) => {
@@ -73,15 +72,21 @@ let generateShips = (ship) => {
     let current = ship.directions[randomDirection]
     if (randomDirection === 0) direction = 1    //  horizontal
     if (randomDirection === 1) direction = 8    //  verticle
-    let randomStart = Math.floor(Math.random() * computerSquares.length - ship.directions[0].length * randomDirection)  // keeps ship on board
-
-    const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken"))
+    let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
+console.log(current)
+    const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) 
+    console.log(isTaken)
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
     const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)
 
-    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to 
+    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken  
     else generateShips(ship)
 }
+
+generateShips(shipArray[0]) 
+generateShips(shipArray[1])
+generateShips(shipArray[2])
+generateShips(shipArray[3])
 
 
 
