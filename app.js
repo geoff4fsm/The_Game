@@ -67,7 +67,9 @@ const shipArray = [ // array of ships to be placed randomly by computer
         ]
     }
 ]
+
 // place computer ships in random location
+
 
 let generateShips = (ship) => {
     let randomDirection = Math.floor(Math.random() * ship.directions.length)
@@ -112,21 +114,20 @@ rotateButton.addEventListener("click", rotate)
 let selectedShipNameWithIndex
 let draggedShip
 let draggedShipLength
-console.log(selectedShipNameWithIndex)
-console.log(draggedShip)
-console.log(draggedShipLength)
+ 
 
-
-ships.forEach(ship => ship.addEventListener("mousedown", (e) => {
+ships.forEach(ship => ship.addEventListener("mousedown", (e) => { //  this works
     selectedShipNameWithIndex = e.target.id
-    console.log(ships)
+   // console.log(selectedShipNameWithIndex)
 }))
 
-let dragStart = (e) => {
-    console.log(this)
+let dragStart = (e) => {      // this doesn't work
     draggedShip = this
-    draggedShipLength = this.length
-    console.log(draggedShipLength)
+    draggedShipLength = this.childNodes.length
+    console.log(draggedShip + draggedShipLength)
+ console.log(selectedShipNameWithIndex)
+ console.log(draggedShip)
+ console.log(draggedShipLength)
 
 }
 let dragOver = (e) => {
@@ -135,22 +136,23 @@ let dragOver = (e) => {
 let dragEnter = (e) => {
     e.preventDefault()
 }
-let dragLeave = (e) => {
+let dragLeave = () => {
     
 }
-let dragDrop = (e) => {
+let dragDrop = () => {
     let shipNameWithLastId= draggedShip.lastChild.id
     let shipClass = shipNameWithLastId.slice(0,-2)
     console.log(shipClass)
-    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))
+    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // 
     let shipLastId = lastShipIndex + parseInt(this.dataset.id)
     selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
     console.log(selectedShipIndex)
+    shipLastId = shipLastId - selectedShipIndex
 }    
-let dragEnd = (e) => {
+let dragEnd = () => {
     
 }
-console.log(ships)
+
 ships.forEach(ship => ship.addEventListener("dragstart", dragStart))
 userSquares.forEach(square => square.addEventListener("dragstart", dragStart))
 userSquares.forEach(square => square.addEventListener("dragover", dragOver))
