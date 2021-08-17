@@ -85,20 +85,20 @@ let generateShips = (ship) => {
     if (randomDirection === 1) direction = 10    //  vertical
     let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
     const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) // checks if square is already occupied by another ship
-    const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
-    const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)
+    const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)  // checks if any of ship occupied squares is in last column #9
+    const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)  //  // checks if any of ship occupied squares is in first column #0
 
     if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to a ship if square already occupied 
     else generateShips(ship)
 }
 for ( let i = 0 ; i < shipArray.length ; i++)
-generateShips(shipArray[i]) 
+generateShips(shipArray[i]) //  generates each ship on computer board
 
 // rotate the ships
 
 let rotate = () => {
     if ( horizontal ) {
-        destroyer.classList.toggle("destroyer-container-vertical")
+        destroyer.classList.toggle("destroyer-container-vertical") // changes horizontal to vertical container for each ship
         cruiser.classList.toggle("cruiser-container-vertical")
         submarine.classList.toggle("submarine-container-vertical")
         battleship.classList.toggle("battleship-container-vertical")
@@ -107,7 +107,7 @@ let rotate = () => {
         return
     }
     if ( !horizontal ) {
-        destroyer.classList.toggle("destroyer-container")
+        destroyer.classList.toggle("destroyer-container")  //  changes back to horizontal for each ship
         cruiser.classList.toggle("cruiser-container")
         submarine.classList.toggle("submarine-container")
         battleship.classList.toggle("battleship-container")
@@ -122,7 +122,7 @@ rotateButton.addEventListener("click", rotate)
 
 
 
-let selectedShipNameWithIndex
+let selectedShipNameWithIndex  // ship with pointer position inside ship length
 let draggedShip
 let draggedShipLength
  
@@ -132,7 +132,7 @@ ships.forEach(ship => ship.addEventListener("mousedown", (e) => {
     // console.log(selectedShipNameWithIndex)
 }))
 
-let dragStart = (e) => {      // this doesn't work
+let dragStart = (e) => {      // 
     draggedShip = e.target
     //console.log(draggedShip)
     //console.log(e.target.children.length)
@@ -148,14 +148,14 @@ let dragOver = (e) => {
 let dragEnter = (e) => {
     e.preventDefault()
 }
-let dragLeave = () => {
+let dragLeave = (e) => {
     
 }
 let dragDrop = (e) => {
     let shipNameWithLastId= draggedShip.lastChild.id
-//   console.log (shipNameWithLastId)
+   console.log (shipNameWithLastId)
     let shipClass = shipNameWithLastId.slice(0,-2)
-//    console.log(shipClass)
+    console.log(shipClass)
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // 
     let shipLastId = lastShipIndex + parseInt(e.target.dataset.id)
 

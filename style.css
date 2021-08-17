@@ -146,7 +146,7 @@ h1 {
     display: flex ;
     flex-wrap: wrap ;
 }
-
+/* change ship colors here to rgb(180, 164, 255) for invisable computer ships*/
 .destroyer {
     background-color: yellow ;
 }
