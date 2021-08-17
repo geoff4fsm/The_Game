@@ -52,7 +52,7 @@ h1 {
 
 .gamePlay {
     margin-top: 10px;
-    display: flex ;
+    
     
 }
 
@@ -163,7 +163,13 @@ h1 {
     background-color: green ;
 }
 
+.hit {
+    background-color: red ;
+}
 
+.miss {
+    background-color: black;
+}
 
 
 
