@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-//  Identify Admiral
-//  while (!player){
-//      const player = prompt("Admiral please enter your name") ;
-//  }
 
 // assign constants for game
 const userGrid = document.querySelector(".grid-user")
@@ -233,8 +229,9 @@ let playerTurn = (square) => {
     } else {
         square.classList.add("miss")
     }
+    checkSink()
     currentPlayer = "computer"
-    computerTurn()
+    playGame()
 }
 
 let compDestroyerCount = 0
@@ -252,6 +249,7 @@ let computerTurn = () => {
     if (userSquares[random].classList.contains("submarine")) compSubmarineCount++
     if (userSquares[random].classList.contains("battleship")) compBattleshipCount++
     if (userSquares[random].classList.contains("carrier")) compCarrierCount++
+    checkSink()
 } else computerTurn()
 currentPlayer = "user"
 turnDisplay.innerHTML = "Your Turn"
@@ -300,15 +298,14 @@ let checkSink = () => {
     }
     if ((destroyerCount + cruiserCount + submarineCount + battleshipCount + carrierCount) === 50) {
         infoDisplay.innerHTML = "YOU WIN !!!"
-        gameOver()
+        
     }
     if ((compDestroyerCount + compCruiserCount + compSubmarineCount + compBattleshipCount + compCarrierCount) === 50) {
         infoDisplay.innerHTML = "COMPUTER WINS !!!"
-        gameOver()
+        
     }
 
 }
-let gameOver = () => {
-    
-}
+
+
 })
