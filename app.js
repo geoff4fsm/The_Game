@@ -5,35 +5,36 @@ document.addEventListener("DOMContentLoaded", () => {
 //  }
 
 // assign constants for game
-const userBoard = document.querySelector(".board-user")
-const computerBoard = document.querySelector(".board-computer")
-const gameBoard = document.querySelector(".board-game")
+const userGrid = document.querySelector(".grid-user")
+const computerGrid = document.querySelector(".grid-computer")
+const displayGrid = document.querySelector(".grid-display")
 const ships = document.querySelectorAll(".ship")
 const destroyer = document.querySelector(".destroyer-container")
 const cruiser = document.querySelector(".cruiser-container")
+const submarine = document.querySelector(".submarine-container")
 const battleship = document.querySelector(".battleship-container")
 const carrier = document.querySelector(".carrier-container")
 const startButton = document.querySelector("#start")
 const rotateButton = document.querySelector("#rotate")
 const turnDisplay = document.querySelector("#player-turn")
 const infoDisplay = document.querySelector("#info")
-const width = 8 
+const width = 10 
 const userSquares = []
 const computerSquares = []
 let horizontal = true
 
 // Create game boards with assigned numbers for possible positions
 
-let createBoard = ( board, squares ) => {
+let createBoard = ( grid, squares ) => {
     for ( let i = 0 ; i < width * width ; i++ ) {    // counter for each square
         const square = document.createElement("div")   // creates a div for each square
         square.dataset.id = i   // assign a number to each square
-        board.appendChild(square)
+        grid.appendChild(square)
         squares.push(square)        
     }
 }
-createBoard( userBoard, userSquares )
-createBoard( computerBoard, computerSquares)
+createBoard( userGrid, userSquares )
+createBoard( computerGrid, computerSquares)
 
 // Ships
 
@@ -52,6 +53,13 @@ const shipArray = [ // array of ships to be placed randomly by computer
             [0, width, width*2]
         ]
     },
+    {
+        name: "submarine",
+            directions: [
+                [0, 1, 2],
+                [0, width, width*2]
+            ]
+        },
     {
     name: "battleship",
         directions: [
@@ -75,7 +83,7 @@ let generateShips = (ship) => {
     let randomDirection = Math.floor(Math.random() * ship.directions.length)
     let current = ship.directions[randomDirection]
     if (randomDirection === 0) direction = 1    //  horizontal
-    if (randomDirection === 1) direction = 8    //  vertical
+    if (randomDirection === 1) direction = 10    //  vertical
     let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
     const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) // checks if square is already occupied by another ship
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)
@@ -84,8 +92,8 @@ let generateShips = (ship) => {
     if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to a ship if square already occupied 
     else generateShips(ship)
 }
-for ( let j = 0 ; j < shipArray.length ; j++)
-generateShips(shipArray[j]) 
+for ( let i = 0 ; i < shipArray.length ; i++)
+generateShips(shipArray[i]) 
 
 // rotate the ships
 
@@ -93,6 +101,7 @@ let rotate = () => {
     if ( horizontal ) {
         destroyer.classList.toggle("destroyer-container-vertical")
         cruiser.classList.toggle("cruiser-container-vertical")
+        submarine.classList.toggle("submarine-container-vertical")
         battleship.classList.toggle("battleship-container-vertical")
         carrier.classList.toggle("carrier-container-vertical")
         horizontal = false
@@ -101,6 +110,7 @@ let rotate = () => {
     if ( !horizontal ) {
         destroyer.classList.toggle("destroyer-container")
         cruiser.classList.toggle("cruiser-container")
+        submarine.classList.toggle("submarine-container")
         battleship.classList.toggle("battleship-container")
         carrier.classList.toggle("carrier-container")
         horizontal = true
@@ -111,21 +121,24 @@ rotateButton.addEventListener("click", rotate)
 
 // drag and drop player ship
 
+
+
 let selectedShipNameWithIndex
 let draggedShip
 let draggedShipLength
  
 
-ships.forEach(ship => ship.addEventListener("mousedown", (e) => { //  this works
-    selectedShipNameWithIndex = e.target.id
-   // console.log(selectedShipNameWithIndex)
+ships.forEach(ship => ship.addEventListener("mousedown", (e) => { 
+    selectedShipNameWithIndex = e.target.id   // name with space occupied by pointer
+    console.log(selectedShipNameWithIndex)
 }))
 
-let dragStart = (e) => {      // this doesn't work
+let dragStart = () => {      // this doesn't work
     draggedShip = this
+    console.log(draggedShip)
     draggedShipLength = this.childNodes.length
     console.log(draggedShip + draggedShipLength)
- console.log(selectedShipNameWithIndex)
+ 
  console.log(draggedShip)
  console.log(draggedShipLength)
 
@@ -147,7 +160,19 @@ let dragDrop = () => {
     let shipLastId = lastShipIndex + parseInt(this.dataset.id)
     selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
     console.log(selectedShipIndex)
-    shipLastId = shipLastId - selectedShipIndex
+    console.log(shipLastId)
+    shipLastId = shipLastId - selectedShipIndex  // corrects for end of ship from index space
+
+    if (horizontal) {
+        for ( let i = 0 ; i < draggedShipLength ; i++) {
+          userSquares[parseInt(this.dataset.id) - selectedShipIndex + i ].classList.add("taken" , shipClass) 
+        }
+    } else if (!horizontal) {
+        for ( let i = 0 ; i < draggedShipLength ; i++ ) {
+            userSquares[parseInt(this.dataset.id) - selectedShipIndex * width * i ].add("taken" , shipClass)
+        }
+    } else return
+    displayGrid.removeChild(draggedShip)
 }    
 let dragEnd = () => {
     

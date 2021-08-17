@@ -1,17 +1,16 @@
 h1 {
     position: absolute ;
-    left: 40% ;
-    
+    left: 40% ;    
 }
 
-.gameBoard {
+.container {
     display: flex ;
     flex-wrap: wrap ;
 }
 
-.board-user {
-    width: 320px ;
-    height: 320px ;
+.grid-user {
+    width: 400px ;
+    height: 400px ;
     display: flex ;
     flex-wrap: wrap ;
     background: rgb(252, 172, 172) ;
@@ -22,9 +21,9 @@ h1 {
     margin-top: 5% ;
 
 }
-.board-computer {
-    width: 320px ;
-    height: 320px ;
+.grid-computer {
+    width: 400px ;
+    height: 400px ;
     display: flex ;
     flex-wrap: wrap ;
     background: rgb(180, 164, 255) ;
@@ -34,11 +33,10 @@ h1 {
     margin: 20px ;
     margin-top: 5% ;
 }
-.board-placement {
-    width: 320px ;
-    height: 320px ;
-    display: flex ;
-    flex-wrap: wrap ;
+.grid-display {
+    width: 400px ;
+    height: 400px ;
+
     background: lightyellow ;
     border: 3px solid black ;
     padding: .5rem ;
@@ -46,7 +44,7 @@ h1 {
     margin: 20px ;
     margin-top: 5% ;
 }
-.board div {
+.grid div {
     width: 40px ;
     height: 40px ;
     display: flex ;
@@ -54,6 +52,7 @@ h1 {
 
 .gamePlay {
     margin-top: 10px;
+    display: flex ;
     
 }
 
@@ -96,6 +95,24 @@ h1 {
     flex-wrap: wrap ;
 }
 
+.submarine-container {
+    width: 120px ;
+    height: 40px ;
+    background-color: purple;
+    margin: 10px ;
+    display: flex ;
+}
+
+.submarine-container-vertical {
+    width: 40px ;
+    height: 120px ;
+    background-color: purple;
+    margin: 10px ;
+    display: flex ;
+    flex-wrap: wrap ;
+}
+
+
 .battleship-container {
     width: 160px ;
     height: 40px ;
@@ -135,6 +152,9 @@ h1 {
 }
 .cruiser {
     background-color: orange ;
+}
+.submarine {
+    background-color: purple ;
 }
 .battleship {
     background-color: blue ;
