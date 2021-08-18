@@ -1,10 +1,10 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {  
 
 // assign constants for game
 const userGrid = document.querySelector(".grid-user")
 const computerGrid = document.querySelector(".grid-computer")
 const displayGrid = document.querySelector(".grid-display")
-const ships = document.querySelectorAll(".ship")
+const ships = document.querySelectorAll(".ship")  
 const destroyer = document.querySelector(".destroyer-container")
 const cruiser = document.querySelector(".cruiser-container")
 const submarine = document.querySelector(".submarine-container")
@@ -139,14 +139,14 @@ let dragStart = (e) => {      //
  //console.log(draggedShipLength)
 
 }
-let dragOver = (e) => {
+let dragOver = (e) => {     //  allows passage over another ship 
     e.preventDefault()  
 }
-let dragEnter = (e) => {
+let dragEnter = (e) => {    //  enter user square
     e.preventDefault()
 }
-let dragLeave = (e) => {
-    
+let dragLeave = (e) => {    // leave user square
+    e.preventDefault()
 }
 let dragDrop = (e) => {
     let shipNameWithLastId= draggedShip.lastChild.id
@@ -179,10 +179,10 @@ let dragDrop = (e) => {
     displayGrid.removeChild(draggedShip)
 }    
 let dragEnd = () => {
-console.log("dragEnd")    
+    
 }
 
-ships.forEach(ship => ship.addEventListener("dragstart", dragStart))
+ships.forEach(ship => ship.addEventListener("dragstart", dragStart))  // 
 userSquares.forEach(square => square.addEventListener("dragstart", dragStart))
 userSquares.forEach(square => square.addEventListener("dragover", dragOver))
 userSquares.forEach(square => square.addEventListener("dragenter", dragEnter))
