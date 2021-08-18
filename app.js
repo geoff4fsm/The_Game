@@ -1,23 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {  
 
 // assign constants for game
-const userGrid = document.querySelector(".grid-user")
-const computerGrid = document.querySelector(".grid-computer")
-const displayGrid = document.querySelector(".grid-display")
-const ships = document.querySelectorAll(".ship")  
-const destroyer = document.querySelector(".destroyer-container")
+const userGrid = document.querySelector(".grid-user")  // player board
+const computerGrid = document.querySelector(".grid-computer")  // computer board
+const displayGrid = document.querySelector(".grid-display")  // staging board for ships to be placed
+const ships = document.querySelectorAll(".ship")  // ships = all possible ships 
+const destroyer = document.querySelector(".destroyer-container") 
 const cruiser = document.querySelector(".cruiser-container")
 const submarine = document.querySelector(".submarine-container")
 const battleship = document.querySelector(".battleship-container")
 const carrier = document.querySelector(".carrier-container")
-const startButton = document.querySelector("#start")
-const rotateButton = document.querySelector("#rotate")
-const turnDisplay = document.querySelector("#player-turn")
-const infoDisplay = document.querySelector("#info")
+const startButton = document.querySelector("#start")  // start game play
+const rotateButton = document.querySelector("#rotate")  // rotate ships for placement
+const turnDisplay = document.querySelector("#player-turn") // whose turn is it
+const infoDisplay = document.querySelector("#info")  // information on sunken ships 
 const width = 10 
 const userSquares = []
 const computerSquares = []
-let horizontal = true
+let horizontal = true  // 
 let isGameOver = false
 let currentPlayer = "user"
 
@@ -28,19 +28,19 @@ let createBoard = ( grid, squares ) => {
     for ( let i = 0 ; i < width * width ; i++ ) {    // counter for each square
         const square = document.createElement("div")   // creates a div for each square
         square.dataset.id = i   // assign a number to each square
-        grid.appendChild(square)
-        squares.push(square)        
+        grid.appendChild(square)  // adds square to each grid node
+        squares.push(square)      // pushes square to board array  
     }
 }
-createBoard( userGrid, userSquares )
-createBoard( computerGrid, computerSquares)
+createBoard( userGrid, userSquares )   // user board
+createBoard( computerGrid, computerSquares)  // computer board
 
 // Ships
 
 const shipArray = [ // array of ships to be placed randomly by computer
     {
     name: "destroyer",
-        directions: [       // possible directions of ship array
+        directions: [       // possible directions of ship array with ship length
             [0, 1],        // horizontal
             [0, width]     // vertical
         ]
@@ -79,14 +79,14 @@ const shipArray = [ // array of ships to be placed randomly by computer
 
 
 let generateShips = (ship) => {
-    let randomDirection = Math.floor(Math.random() * ship.directions.length)
+    let randomDirection = Math.floor(Math.random() * ship.directions.length)  //  chooses random direction for each ship horizontal/vertical
     let current = ship.directions[randomDirection]
     if (randomDirection === 0) direction = 1    //  horizontal
     if (randomDirection === 1) direction = 10    //  vertical
     let randomStart = Math.abs(Math.floor(Math.random() * computerSquares.length - (ship.directions[0].length * direction)))  // keeps ship on board
     const isTaken = current.some(index => computerSquares[randomStart + index].classList.contains("taken")) // checks if square is already occupied by another ship
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)  // checks if any of ship occupied squares is in last column #9
-    const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)  //  // checks if any of ship occupied squares is in first column #0
+    const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)    // checks if any of ship occupied squares is in first column #0
 
     if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to a ship if square already occupied 
     else generateShips(ship)
@@ -126,33 +126,33 @@ let draggedShipLength
  
 ships.forEach(ship => ship.addEventListener("mousedown", (e) => { 
     selectedShipNameWithIndex = e.target.id   // name with space occupied by pointer
-    console.log(selectedShipNameWithIndex)
+   // console.log(selectedShipNameWithIndex)
 }))
 
 let dragStart = (e) => {      // 
     draggedShip = e.target
-    console.log(draggedShip)
-    console.log(e.target.children.length)
+   // console.log(draggedShip)
+   // console.log(e.target.children.length)
     draggedShipLength = e.target.children.length
  
  //console.log(draggedShip)
  //console.log(draggedShipLength)
 
 }
-let dragOver = (e) => {     //  allows passage over another ship 
+let dragOver = (e) => {    
     e.preventDefault()  
 }
-let dragEnter = (e) => {    //  enter user square
+let dragEnter = (e) => {    
     e.preventDefault()
 }
-let dragLeave = (e) => {    // leave user square
+let dragLeave = (e) => {  
     e.preventDefault()
 }
 let dragDrop = (e) => {
     let shipNameWithLastId= draggedShip.lastChild.id
-   console.log (shipNameWithLastId)
+  console.log (shipNameWithLastId)
     let shipClass = shipNameWithLastId.slice(0,-2)
-    // console.log(shipClass)
+     console.log(shipClass)
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // 
     let shipLastId = lastShipIndex + parseInt(e.target.dataset.id)
 
@@ -176,7 +176,7 @@ let dragDrop = (e) => {
             userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + width * i ].classList.add("taken" , shipClass)
         }
     } else return
-    displayGrid.removeChild(draggedShip)
+    displayGrid.removeChild(draggedShip)  // remove placed ship from staging board
 }    
 let dragEnd = () => {
     
@@ -306,7 +306,7 @@ let checkSink = () => {
 
  let gameOver = () => {
      isGameOver = true
-     startButton.remove
+     startButton.removeEventListener("click" , playGame)
  }
 
 })
