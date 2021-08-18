@@ -18,7 +18,7 @@ const width = 10
 const userSquares = []
 const computerSquares = []
 let horizontal = true
-let gameOver = false
+let isGameOver = false
 let currentPlayer = "user"
 
 
@@ -120,22 +120,19 @@ rotateButton.addEventListener("click", rotate)
 
 // drag and drop player ship
 
-
-
 let selectedShipNameWithIndex  // ship with pointer position inside ship length
 let draggedShip
 let draggedShipLength
  
-
 ships.forEach(ship => ship.addEventListener("mousedown", (e) => { 
     selectedShipNameWithIndex = e.target.id   // name with space occupied by pointer
-    // console.log(selectedShipNameWithIndex)
+    console.log(selectedShipNameWithIndex)
 }))
 
 let dragStart = (e) => {      // 
     draggedShip = e.target
-    //console.log(draggedShip)
-    //console.log(e.target.children.length)
+    console.log(draggedShip)
+    console.log(e.target.children.length)
     draggedShipLength = e.target.children.length
  
  //console.log(draggedShip)
@@ -155,7 +152,7 @@ let dragDrop = (e) => {
     let shipNameWithLastId= draggedShip.lastChild.id
    console.log (shipNameWithLastId)
     let shipClass = shipNameWithLastId.slice(0,-2)
-    console.log(shipClass)
+    // console.log(shipClass)
     let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // 
     let shipLastId = lastShipIndex + parseInt(e.target.dataset.id)
 
@@ -163,7 +160,7 @@ let dragDrop = (e) => {
     const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60]
 
     let newnotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keep ship from wrapping horizontal
-    let newnotAllowedVertical = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keep ship from wrapping vertical
+    let newnotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex) // keep ship from wrapping vertical
 
     selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
 //    console.log(selectedShipIndex)
@@ -196,7 +193,7 @@ userSquares.forEach(square => square.addEventListener("dragend", dragEnd))
 // Game Logic
 
 let playGame = () => {
-    if (gameOver) return
+    if (isGameOver) return
     if (currentPlayer === "user") {
         turnDisplay.innerHTML = "your turn"
         computerSquares.forEach(square => square.addEventListener("click", function(e) {
@@ -298,14 +295,18 @@ let checkSink = () => {
     }
     if ((destroyerCount + cruiserCount + submarineCount + battleshipCount + carrierCount) === 50) {
         infoDisplay.innerHTML = "YOU WIN !!!"
-        
+        gameOver()
     }
     if ((compDestroyerCount + compCruiserCount + compSubmarineCount + compBattleshipCount + compCarrierCount) === 50) {
         infoDisplay.innerHTML = "COMPUTER WINS !!!"
-        
+        gameOver()
     }
 
 }
 
+ let gameOver = () => {
+     isGameOver = true
+     startButton.remove
+ }
 
 })
