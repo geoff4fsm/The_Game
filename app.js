@@ -14,15 +14,16 @@ const startButton = document.querySelector("#start")  // start game play
 const restartButton = document.querySelector("#restart")
 const rotateButton = document.querySelector("#rotate")  // rotate ships for placement
 const turnDisplay = document.querySelector("#player-turn") // whose turn is it
-const infoDisplay = document.querySelector("#info")  // information on sunken ships 
+const infoDisplay = document.querySelector("#info")  // information on sunken ships and game play
 const width = 10 
 const userSquares = []
 const computerSquares = []
-let horizontal = true  // 
+let horizontal = true   
 let isGameOver = false
 let currentPlayer = "user"
 
-infoDisplay.innerHTML =  "Place ships to begin then press start button"
+
+infoDisplay.innerHTML =  "Place ships then press start button"
 
 // Create game boards with assigned numbers for possible positions
 
@@ -153,10 +154,10 @@ let dragDrop = (e) => {
     const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,12,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93]  //  keeps ship from wrapping horizontal
     const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60]  //  keeps ship from wrapping vertical
 
-    let newnotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keeps ship from wrapping horizontal only using numbers needed for ship length
-    let newnotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex) // keeps ship from wrapping vertical only using numbers needed for ship length
+    let newnotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keeps ship from wrapping horizontal only using numbers needed for ship length from current index
+    let newnotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex) // keeps ship from wrapping vertical only using numbers needed for ship length from current index
 
-    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))  // returns last element of string (index position) as an integer to add to square number
+    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))  // returns last element of string (index position) as an integer 
     shipLastId = shipLastId - selectedShipIndex  // corrects for end of ship from index space
     if (horizontal && !newnotAllowedHorizontal.includes(shipLastId)) {
         for ( let i = 0 ; i < draggedShipLength ; i++) {  // places each square of ship length horizontal
@@ -186,7 +187,7 @@ userSquares.forEach(square => square.addEventListener("dragend", dragEnd))   // 
 // Game Logic
 
 let playGame = () => {
-    infoDisplay.innerHTML = ""
+    
     if (isGameOver) return
     if (currentPlayer === "user") {
         turnDisplay.innerHTML = "your turn"
@@ -234,16 +235,17 @@ let compBattleshipCount = 0
 let compCarrierCount = 0
 
 let computerTurn = () => {
-   let random = Math.floor(Math.random() * userSquares.length)
-   if(!userSquares[random].classList.contains("hit")) {
-       userSquares[random].classList.add("hit")  // adds "hit" to any random square chosen by computer
-    if (userSquares[random].classList.contains("destroyer")) compDestroyerCount++  // adds to computer ship hit count
-    if (userSquares[random].classList.contains("cruiser")) compCruiserCount++
-    if (userSquares[random].classList.contains("submarine")) compSubmarineCount++
-    if (userSquares[random].classList.contains("battleship")) compBattleshipCount++
-    if (userSquares[random].classList.contains("carrier")) compCarrierCount++
-    checkSink()
-} else computerTurn()
+    let random = Math.floor(Math.random() * userSquares.length)
+    if(!userSquares[random].classList.contains("hit")) {
+        userSquares[random].classList.add("hit")  // adds "hit" to any random square chosen by computer
+     if (userSquares[random].classList.contains("destroyer")) compDestroyerCount++  // adds to computer ship hit count
+     if (userSquares[random].classList.contains("cruiser")) compCruiserCount++
+     if (userSquares[random].classList.contains("submarine")) compSubmarineCount++
+     if (userSquares[random].classList.contains("battleship")) compBattleshipCount++
+     if (userSquares[random].classList.contains("carrier")) compCarrierCount++
+     checkSink()
+ } else computerTurn()
+   
 currentPlayer = "user"
 turnDisplay.innerHTML = "Your Turn"
 }
