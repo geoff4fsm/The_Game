@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {  
+document.addEventListener("DOMContentLoaded", () => {  // loads entire HTML page first
 
 // assign constants for game
 const userGrid = document.querySelector(".grid-user")  // player board
@@ -11,6 +11,7 @@ const submarine = document.querySelector(".submarine-container")
 const battleship = document.querySelector(".battleship-container")
 const carrier = document.querySelector(".carrier-container")
 const startButton = document.querySelector("#start")  // start game play
+//const restartButton = document.querySelector("#restart")
 const rotateButton = document.querySelector("#rotate")  // rotate ships for placement
 const turnDisplay = document.querySelector("#player-turn") // whose turn is it
 const infoDisplay = document.querySelector("#info")  // information on sunken ships 
@@ -75,7 +76,7 @@ const shipArray = [ // array of ships to be placed randomly by computer
     }
 ]
 
-// place computer ships in random location
+// place computer ships in random locations
 
 
 let generateShips = (ship) => {
@@ -88,15 +89,15 @@ let generateShips = (ship) => {
     const isAtRightEdge = current.some(index => (randomStart + index) % width === width - 1)  // checks if any of ship occupied squares is in last column #9
     const isAtLeftEdge = current.some(index => (randomStart + index) % width === 0)    // checks if any of ship occupied squares is in first column #0
 
-    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken to a ship if square already occupied 
-    else generateShips(ship)
+    if ( !isTaken && !isAtRightEdge && !isAtLeftEdge) current.forEach( index => computerSquares[randomStart + index].classList.add("taken", ship.name) )// adds taken and ship name to a placed ship squares occupied
+    else generateShips(ship)  // if already taken or at edges run function again
 }
 for ( let i = 0 ; i < shipArray.length ; i++)
 generateShips(shipArray[i]) //  generates each ship on computer board
 
 // rotate the ships
 
-let rotate = () => {
+let rotateShips = () => {
     if ( horizontal ) {
         destroyer.classList.toggle("destroyer-container-vertical") // changes horizontal to vertical container for each ship
         cruiser.classList.toggle("cruiser-container-vertical")
@@ -106,7 +107,7 @@ let rotate = () => {
         horizontal = false
         return
     }
-    if ( !horizontal ) {
+    else  {
         destroyer.classList.toggle("destroyer-container")  //  changes back to horizontal for each ship
         cruiser.classList.toggle("cruiser-container")
         submarine.classList.toggle("submarine-container")
@@ -116,27 +117,22 @@ let rotate = () => {
         return
     }
 }
-rotateButton.addEventListener("click", rotate)
+rotateButton.addEventListener("click", rotateShips)
 
 // drag and drop player ship
 
 let selectedShipNameWithIndex  // ship with pointer position inside ship length
-let draggedShip
-let draggedShipLength
+let draggedShip  // ship being dragged
+let draggedShipLength  // length of ship being dragged
  
 ships.forEach(ship => ship.addEventListener("mousedown", (e) => { 
     selectedShipNameWithIndex = e.target.id   // name with space occupied by pointer
    // console.log(selectedShipNameWithIndex)
 }))
 
-let dragStart = (e) => {      // 
-    draggedShip = e.target
-   // console.log(draggedShip)
-   // console.log(e.target.children.length)
-    draggedShipLength = e.target.children.length
- 
- //console.log(draggedShip)
- //console.log(draggedShipLength)
+let dragStart = (e) => {       
+    draggedShip = e.target  // console.log(draggedShip)  
+    draggedShipLength = e.target.children.length  // console.log(e.target.children.length)
 
 }
 let dragOver = (e) => {    
@@ -149,31 +145,25 @@ let dragLeave = (e) => {
     e.preventDefault()
 }
 let dragDrop = (e) => {
-    let shipNameWithLastId= draggedShip.lastChild.id
-  console.log (shipNameWithLastId)
-    let shipClass = shipNameWithLastId.slice(0,-2)
-     console.log(shipClass)
-    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // 
-    let shipLastId = lastShipIndex + parseInt(e.target.dataset.id)
+    let shipNameWithLastId = draggedShip.lastChild.id  // ship with id of last square contained in ship container example cruiser 2
+    let shipClass = shipNameWithLastId.slice(0,-2)  // removes id of last square leaving ship class only
+    let lastShipIndex = parseInt(shipNameWithLastId.substr(-1))  // changes string of last square index number to an integer (position of pointer in ship being placed)
+    let shipLastId = lastShipIndex + parseInt(e.target.dataset.id)  // position number of ship on board from index position
+    const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,12,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93]  //  keeps ship from wrapping horizontal
+    const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60]  //  keeps ship from wrapping vertical
 
-    const notAllowedHorizontal = [0,10,20,30,40,50,60,70,80,90,1,11,21,31,41,51,61,71,81,91,2,12,22,32,42,52,62,72,82,92,3,13,23,33,43,53,63,73,83,93]
-    const notAllowedVertical = [99,98,97,96,95,94,93,92,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,73,72,71,70,69,68,67,66,65,64,63,62,61,60]
+    let newnotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keeps ship from wrapping horizontal only using numbers needed for ship length
+    let newnotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex) // keeps ship from wrapping vertical only using numbers needed for ship length
 
-    let newnotAllowedHorizontal = notAllowedHorizontal.splice(0, 10 * lastShipIndex) // keep ship from wrapping horizontal
-    let newnotAllowedVertical = notAllowedVertical.splice(0, 10 * lastShipIndex) // keep ship from wrapping vertical
-
-    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))
-//    console.log(selectedShipIndex)
-//    console.log(shipLastId)
+    selectedShipIndex = parseInt(selectedShipNameWithIndex.substr(-1))  // returns last element of string (index position) as an integer to add to square number
     shipLastId = shipLastId - selectedShipIndex  // corrects for end of ship from index space
-//    console.log(shipLastId)
     if (horizontal && !newnotAllowedHorizontal.includes(shipLastId)) {
-        for ( let i = 0 ; i < draggedShipLength ; i++) {
-          userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + i ].classList.add("taken" , shipClass) 
+        for ( let i = 0 ; i < draggedShipLength ; i++) {  // places each square of ship length horizontal
+          userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + i ].classList.add("taken" , shipClass) // adds "taken" and ship class to all squares of placed ship horizontal
         }
     } else if (!horizontal && !newnotAllowedVertical.includes(shipLastId)) {
-        for ( let i = 0 ; i < draggedShipLength ; i++ ) {
-            userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + width * i ].classList.add("taken" , shipClass)
+        for ( let i = 0 ; i < draggedShipLength ; i++ ) {  // places each square of ship length vertical
+            userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + width * i ].classList.add("taken" , shipClass)  // adds "taken" and ship class to all squares of placed ship vertical
         }
     } else return
     displayGrid.removeChild(draggedShip)  // remove placed ship from staging board
@@ -182,13 +172,13 @@ let dragEnd = () => {
     
 }
 
-ships.forEach(ship => ship.addEventListener("dragstart", dragStart))  // 
-userSquares.forEach(square => square.addEventListener("dragstart", dragStart))
-userSquares.forEach(square => square.addEventListener("dragover", dragOver))
-userSquares.forEach(square => square.addEventListener("dragenter", dragEnter))
-userSquares.forEach(square => square.addEventListener("dragleave", dragLeave))
-userSquares.forEach(square => square.addEventListener("drop", dragDrop))
-userSquares.forEach(square => square.addEventListener("dragend", dragEnd))
+ships.forEach(ship => ship.addEventListener("dragstart", dragStart))  // start dragging
+userSquares.forEach(square => square.addEventListener("dragstart", dragStart))  //  start dragging
+userSquares.forEach(square => square.addEventListener("dragover", dragOver))  //  over square
+userSquares.forEach(square => square.addEventListener("dragenter", dragEnter))  //  enter new square
+userSquares.forEach(square => square.addEventListener("dragleave", dragLeave))  //  leave a square
+userSquares.forEach(square => square.addEventListener("drop", dragDrop))  //  drop ship
+userSquares.forEach(square => square.addEventListener("dragend", dragEnd))   // end
 
 // Game Logic
 
@@ -196,42 +186,42 @@ let playGame = () => {
     if (isGameOver) return
     if (currentPlayer === "user") {
         turnDisplay.innerHTML = "your turn"
-        computerSquares.forEach(square => square.addEventListener("click", function(e) {
+        computerSquares.forEach(square => square.addEventListener("click", function(e) {  // clicked square calls player turn function
             playerTurn(square)
         }))
     }
     if (currentPlayer === "computer") {
         turnDisplay.innerHTML = "computer turn" 
-        setTimeout (computerTurn(), 1000)
+        setTimeout (computerTurn, 1000) // sets delay for computer turn
     }
 }
 startButton.addEventListener("click", playGame)
 
-let destroyerCount = 0
+let destroyerCount = 0   // variables to  check if computers ship has been sunk
 let cruiserCount = 0
 let submarineCount = 0
 let battleshipCount = 0
 let carrierCount = 0
 
 let playerTurn = (square) => {
-    if(!square.classList.contains("hit")) {
-        if (square.classList.contains("destroyer")) destroyerCount++
+    if(!square.classList.contains("hit") || !square.classList.contains("miss")) {  // checks if square clicked previously
+        if (square.classList.contains("destroyer")) destroyerCount++  // adds to ship hit count
         if (square.classList.contains("cruiser")) cruiserCount++
         if (square.classList.contains("submarine")) submarineCount++
         if (square.classList.contains("battleship")) battleshipCount++
         if (square.classList.contains("carrier")) carrierCount++
     }
     if (square.classList.contains("taken")) {
-        square.classList.add("hit")
+        square.classList.add("hit")  // adds "hit" to taken square
     } else {
-        square.classList.add("miss")
+        square.classList.add("miss")  // adds "miss" if not taken
     }
     checkSink()
     currentPlayer = "computer"
     playGame()
 }
 
-let compDestroyerCount = 0
+let compDestroyerCount = 0  // variables to check if players ship has been sunk
 let compCruiserCount = 0
 let compSubmarineCount = 0
 let compBattleshipCount = 0
@@ -254,23 +244,23 @@ turnDisplay.innerHTML = "Your Turn"
 
 let checkSink = () => {
     if (destroyerCount === 2) {
-        infoDisplay.innerHTML = "You sank the computers destroyer"
+        infoDisplay.innerHTML = "You sank the computer's destroyer"
         destroyerCount = 10
     }
     if (cruiserCount === 3) {
-        infoDisplay.innerHTML = "You sank the computers cruiser"
+        infoDisplay.innerHTML = "You sank the computer's cruiser"
         cruiserCount = 10
     }
     if (submarineCount === 3) {
-        infoDisplay.innerHTML = "You sank the computers submarine"
+        infoDisplay.innerHTML = "You sank the computer's submarine"
         submarineCount = 10
     }
     if (battleshipCount === 4) {
-        infoDisplay.innerHTML = "You sank the computers battleship"
+        infoDisplay.innerHTML = "You sank the computer's battleship"
         battleshipCount = 10
     }
     if (carrierCount === 5) {
-        infoDisplay.innerHTML = "You sank the computers carrier"
+        infoDisplay.innerHTML = "You sank the computer's carrier"
         carrierCount = 10
     }
     if (compDestroyerCount === 2) {
@@ -304,9 +294,15 @@ let checkSink = () => {
 
 }
 
- let gameOver = () => {
-     isGameOver = true
-     startButton.removeEventListener("click" , playGame)
- }
-
+let gameOver = () => {
+    isGameOver = true
+    startButton.removeEventListener("click" , playGame)
+}
+// restartButton.addEventListener("click", restartGame)
+// let restartGame = () => {
+//     isGameOver = false
+//     createBoard()
+//     generateShips()
+//     playGame()
+// }
 })
