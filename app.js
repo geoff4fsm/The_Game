@@ -204,10 +204,10 @@ let battleshipCount = 0
 let carrierCount = 0
 
 let playerTurn = (square) => {
-    if(square.classList.contains("hit") || square.classList.contains("miss")) {  // checks if square clicked previously
+    if( square.classList.contains("hit") || square.classList.contains("miss") ) {  // checks if square clicked previously
         playerTurn()
     }
-        if (square.classList.contains("destroyer")) destroyerCount++  // adds to ship hit count
+        if (square.classList.contains("destroyer")) destroyerCount++  // adds to player ship hit count
         if (square.classList.contains("cruiser")) cruiserCount++
         if (square.classList.contains("submarine")) submarineCount++
         if (square.classList.contains("battleship")) battleshipCount++
@@ -232,8 +232,8 @@ let compCarrierCount = 0
 let computerTurn = () => {
    let random = Math.floor(Math.random() * userSquares.length)
    if(!userSquares[random].classList.contains("hit")) {
-       userSquares[random].classList.add("hit")
-    if (userSquares[random].classList.contains("destroyer")) compDestroyerCount++
+       userSquares[random].classList.add("hit")  // adds "hit" to any random square chosen by computer
+    if (userSquares[random].classList.contains("destroyer")) compDestroyerCount++  // adds to computer ship hit count
     if (userSquares[random].classList.contains("cruiser")) compCruiserCount++
     if (userSquares[random].classList.contains("submarine")) compSubmarineCount++
     if (userSquares[random].classList.contains("battleship")) compBattleshipCount++
@@ -247,7 +247,7 @@ turnDisplay.innerHTML = "Your Turn"
 let checkSink = () => {
     if (destroyerCount === 2) {
         infoDisplay.innerHTML = "You sank the computer's destroyer"
-        destroyerCount = 10
+        destroyerCount = 10  // increase all ships count to eliminate possible problems with variable ship hit totals
     }
     if (cruiserCount === 3) {
         infoDisplay.innerHTML = "You sank the computer's cruiser"
@@ -266,23 +266,23 @@ let checkSink = () => {
         carrierCount = 10
     }
     if (compDestroyerCount === 2) {
-        infoDisplay.innerHTML = "You sank my destroyer"
+        infoDisplay.innerHTML = "Computer sank my destroyer"
         compDestroyerCount = 10
     }
     if (compCruiserCount === 3) {
-        infoDisplay.innerHTML = "You sank my cruiser"
+        infoDisplay.innerHTML = "Computer sank my cruiser"
         compCruiserCount = 10
     }
     if (compSubmarineCount === 3) {
-        infoDisplay.innerHTML = "You sank my submarine"
+        infoDisplay.innerHTML = "Computer sank my submarine"
         compSubmarineCount = 10
     }
     if (compBattleshipCount === 4) {
-        infoDisplay.innerHTML = "You sank my battleship"
+        infoDisplay.innerHTML = "Computer sank my battleship"
         compBattleshipCount = 10
     }
     if (compCarrierCount === 5) {
-        infoDisplay.innerHTML = "You sank my carrier"
+        infoDisplay.innerHTML = "Computer sank my carrier"
         compCarrierCount = 10
     }
     if ((destroyerCount + cruiserCount + submarineCount + battleshipCount + carrierCount) === 50) {
