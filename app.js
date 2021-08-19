@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {  // loads entire HTML page first
 
 // assign constants for game
-const userGrid = document.querySelector(".grid-user")  // player board
-const computerGrid = document.querySelector(".grid-computer")  // computer board
-const displayGrid = document.querySelector(".grid-display")  // staging board for ships to be placed
+const userBoard = document.querySelector(".board-user")  // player board
+const computerBoard = document.querySelector(".board-computer")  // computer board
+const displayBoard = document.querySelector(".board-display")  // staging board for ships to be placed
 const ships = document.querySelectorAll(".ship")  // ships = all possible ships 
 const destroyer = document.querySelector(".destroyer-container") 
 const cruiser = document.querySelector(".cruiser-container")
@@ -11,7 +11,7 @@ const submarine = document.querySelector(".submarine-container")
 const battleship = document.querySelector(".battleship-container")
 const carrier = document.querySelector(".carrier-container")
 const startButton = document.querySelector("#start")  // start game play
-//const restartButton = document.querySelector("#restart")
+const restartButton = document.querySelector("#restart")
 const rotateButton = document.querySelector("#rotate")  // rotate ships for placement
 const turnDisplay = document.querySelector("#player-turn") // whose turn is it
 const infoDisplay = document.querySelector("#info")  // information on sunken ships 
@@ -22,19 +22,20 @@ let horizontal = true  //
 let isGameOver = false
 let currentPlayer = "user"
 
+infoDisplay.innerHTML =  "Place ships to begin then press start button"
 
 // Create game boards with assigned numbers for possible positions
 
-let createBoard = ( grid, squares ) => {
+let createBoard = ( board, squares ) => {
     for ( let i = 0 ; i < width * width ; i++ ) {    // counter for each square
         const square = document.createElement("div")   // creates a div for each square
         square.dataset.id = i   // assign a number to each square
-        grid.appendChild(square)  // adds square to each grid node
+        board.appendChild(square)  // adds square to each grid node
         squares.push(square)      // pushes square to board array  
     }
 }
-createBoard( userGrid, userSquares )   // user board
-createBoard( computerGrid, computerSquares)  // computer board
+createBoard( userBoard, userSquares )   // user board
+createBoard( computerBoard, computerSquares)  // computer board
 
 // Ships
 
@@ -166,7 +167,8 @@ let dragDrop = (e) => {
             userSquares[parseInt(e.target.dataset.id) - selectedShipIndex + width * i ].classList.add("taken" , shipClass)  // adds "taken" and ship class to all squares of placed ship vertical
         }
     } else return
-    displayGrid.removeChild(draggedShip)  // remove placed ship from staging board
+    displayBoard.removeChild(draggedShip)  // remove placed ship from staging board
+    infoDisplay.innerHTML = "After all ships placed press start"
 }    
 let dragEnd = () => {
     
@@ -180,9 +182,11 @@ userSquares.forEach(square => square.addEventListener("dragleave", dragLeave))  
 userSquares.forEach(square => square.addEventListener("drop", dragDrop))  //  drop ship
 userSquares.forEach(square => square.addEventListener("dragend", dragEnd))   // end
 
+
 // Game Logic
 
 let playGame = () => {
+    infoDisplay.innerHTML = ""
     if (isGameOver) return
     if (currentPlayer === "user") {
         turnDisplay.innerHTML = "your turn"

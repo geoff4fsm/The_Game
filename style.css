@@ -8,7 +8,7 @@ h1 {
     flex-wrap: wrap ;
 }
 
-.grid-user {
+.board-user {
     width: 400px ;
     height: 400px ;
     display: flex ;
@@ -21,7 +21,7 @@ h1 {
     margin-top: 5% ;
 
 }
-.grid-computer {
+.board-computer {
     width: 400px ;
     height: 400px ;
     display: flex ;
@@ -33,7 +33,7 @@ h1 {
     margin: 20px ;
     margin-top: 5% ;
 }
-.grid-display {
+.board-display {
     width: 400px ;
     height: 400px ;
 
@@ -44,7 +44,7 @@ h1 {
     margin: 20px ;
     margin-top: 5% ;
 }
-.grid div {
+.board div {
     width: 40px ;
     height: 40px ;
     display: flex ;
