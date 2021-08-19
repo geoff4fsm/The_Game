@@ -300,11 +300,8 @@ let gameOver = () => {
     isGameOver = true
     startButton.removeEventListener("click" , playGame)
 }
-// restartButton.addEventListener("click", restartGame)
-// let restartGame = () => {
-//     isGameOver = false
-//     createBoard()
-//     generateShips()
-//     playGame()
-// }
+ restartButton.addEventListener("click", restart)
+  let restart = () => {
+      isGameOver = false
+}
 })
