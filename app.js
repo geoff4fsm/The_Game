@@ -204,13 +204,15 @@ let battleshipCount = 0
 let carrierCount = 0
 
 let playerTurn = (square) => {
-    if(!square.classList.contains("hit") || !square.classList.contains("miss")) {  // checks if square clicked previously
+    if(square.classList.contains("hit") || square.classList.contains("miss")) {  // checks if square clicked previously
+        playerTurn()
+    }
         if (square.classList.contains("destroyer")) destroyerCount++  // adds to ship hit count
         if (square.classList.contains("cruiser")) cruiserCount++
         if (square.classList.contains("submarine")) submarineCount++
         if (square.classList.contains("battleship")) battleshipCount++
         if (square.classList.contains("carrier")) carrierCount++
-    }
+    
     if (square.classList.contains("taken")) {
         square.classList.add("hit")  // adds "hit" to taken square
     } else {
